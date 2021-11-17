@@ -22,7 +22,7 @@ Eigen::Matrix4f get_view_matrix(Eigen::Vector3f eye_pos)
 
 Eigen::Matrix4f get_model_matrix(float rotation_angle)
 {
-    float radian = rotation_angle / MY_PI;
+    float radian = rotation_angle / 180 * MY_PI;
     float cosRadian = std::cos(radian);
     float sinRadian = std::sin(radian);
 
@@ -47,7 +47,7 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio,
 
     Eigen::Matrix4f projection = Eigen::Matrix4f::Identity();
 
-    float radian = eye_fov / MY_PI;
+    float radian = eye_fov / 180 * MY_PI;
     float tanValue = std::tan(radian / 2);
     float nf = zNear - zFar;
     // TODO: Implement this function

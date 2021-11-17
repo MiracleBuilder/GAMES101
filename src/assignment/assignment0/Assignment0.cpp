@@ -11,7 +11,10 @@ using namespace std;
 
 int main()
 {
-    // counterclockwise 45 degree
+    /*
+        给定一个点 P=(2,1), 将该点绕原点先逆时针旋转 45度，再平移 (1,2), 
+        计算出变换后点的坐标（要求用齐次坐标进行计算）。
+    */
     float alpha = M_PI / 4;
 
     float cosAlpha = std::cos(alpha);
@@ -36,7 +39,7 @@ int main()
     printf("\nUsing an Affine2f\n");
     std::cout << "\nthe rotation Matrix is \n"
               << t.matrix() << std::endl;
-              
+
     Eigen::Vector2f rotatedVect = t * v;
     std::cout << "the rotated vector is \n"
               << rotatedVect << std::endl;

@@ -33,10 +33,11 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio, float z
     // TODO: Copy-paste your implementation from the previous assignment.
     Eigen::Matrix4f projection = Eigen::Matrix4f::Identity();
 
+    // opencv 左上角是原点，这个公式的推导是左下角是原点，xyz都翻一下
     float radian = eye_fov / 180 * MY_PI;
     float tanValue = std::tan(radian / 2);
-    float nf = zNear - zFar;
-    
+    float nf = zFar - zNear;
+
     Eigen::Matrix4f translate;
     translate << 1 / aspect_ratio / tanValue, 0, 0, 0,
         0, 1 / tanValue, 0, 0,

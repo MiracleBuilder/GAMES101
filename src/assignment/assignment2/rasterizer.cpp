@@ -1,7 +1,7 @@
 // clang-format off
 //
 // Created by goksu on 4/6/19.
-//
+// with no MSAA
 
 #include <algorithm>
 #include <vector>
@@ -135,17 +135,14 @@ void rst::rasterizer::rasterize_triangle(const Triangle& t) {
     // the range of y
     int boxTop = std::ceil(std::max(v[0].y(), std::max(v[1].y(), v[2].y())));
     int boxBottom = std::floor(std::min(v[0].y(), std::min(v[1].y(), v[2].y())));
-    boxLeft = 0;
-    boxRight = 700;
-    boxTop = 700;
-    boxBottom = 0;
+
     // iterate through the pixel and find if the current pixel is inside the triangle
     for (int x = boxLeft; x <= boxRight; x++) {
         for (int y = boxBottom; y <= boxTop; y++) {
             if (insideTriangle(x, y, t.v)) {
                 // get the interpolated z value
                 float alpha, beta, gamma;
-                // computeBarycentric2D这个拿来干嘛用？
+                // what's the meaning of computeBarycentric2D?
                 std::tie(alpha, beta, gamma) = computeBarycentric2D(x, y, t.v);
                 float wReciprocal = 1.0/(alpha / v[0].w() + beta / v[1].w() + gamma / v[2].w());
                 float zInterpolated = alpha * v[0].z() / v[0].w() + beta * v[1].z() / v[1].w() + gamma * v[2].z() / v[2].w();

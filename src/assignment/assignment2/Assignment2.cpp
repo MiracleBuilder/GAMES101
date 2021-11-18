@@ -32,8 +32,8 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio, float z
 {
     // TODO: Copy-paste your implementation from the previous assignment.
     Eigen::Matrix4f projection = Eigen::Matrix4f::Identity();
-    // 按照ppt的方法算投影矩阵
-    // 透视投影转正交投影矩阵
+    // following the method of the ppt to get the projection matrix
+    // first, get M_persp-ortho
     // Eigen:Matrix4f matrixPerspToOrtho;
     // matrixPerspToOrtho <<
     // zNear, 0, 0, 0,
@@ -42,7 +42,7 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio, float z
     // 0, 0, 1, 0;
 
     // float halfRadianFov = eye_fov / 180 * MY_PI / 2;
-    // // 正交投影
+    // // second, M_ortho
     // float t = zNear * std::tan(halfRadianFov);
     // float b = -t;
     // float l = -t * aspect_ratio ;
@@ -62,10 +62,14 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio, float z
     //     0, 0, 2 / (zNear - zFar), 0,
     //     0, 0, 0, 1;
 
+    // //finally
     // projection = leftMatrixOrtho * rightMatrixOrtho * matrixPerspToOrtho;
 
-    // 知乎上面直接抄的投影矩阵
-    // opencv 左上角是原点，这个公式的推导是左下角是原点，xyz都翻一下
+    /* 
+        according to the project matrix from ZhiHu, https://zhuanlan.zhihu.com/p/64975836
+        but the top-left point is the origin in opencv,
+        so need flip x, y, z
+    */
     float radian = eye_fov / 180 * MY_PI;
     float tanValue = std::tan(radian / 2);
     float nf = zNear - zFar;

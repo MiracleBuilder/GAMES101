@@ -77,7 +77,7 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio, float z
     Eigen::Matrix4f translate;
     translate << -1 / aspect_ratio / tanValue, 0, 0, 0,
         0, -1 / tanValue, 0, 0,
-        0, 0, -(-zNear - zFar) / (nf), -(2 * zFar * zNear) / nf,
+        0, 0, (-zNear - zFar) / (nf), (2 * zFar * zNear) / nf,
         0, 0, 1, 0;
 
     projection = translate;

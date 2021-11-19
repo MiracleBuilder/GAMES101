@@ -44,6 +44,35 @@ auto to_vec4(const Eigen::Vector3f &v3, float w = 1.0f)
     return Vector4f(v3.x(), v3.y(), v3.z(), w);
 }
 
+// added by user
+static bool isSameSide(const Eigen::Vector3f& pt1, const Eigen::Vector3f& pt2, 
+                       const Eigen::Vector3f& a, const Eigen::Vector3f& b)
+{
+    // reference: https://blackpawn.com/texts/pointinpoly/default.html
+    Eigen::Vector3f cp1 = (b-a).cross(pt1-a);
+    Eigen::Vector3f cp2 = (b-a).cross(pt2-a);
+    if (cp1.dot(cp2)>0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }    
+}
+
+// function interface has been modified for msaa bonus
+// static bool insideTriangle(int x, int y, const Vector3f* _v)
+static bool insideTriangleSameSide(float x, float y, const Vector3f* _v)
+{   
+    // TODO : Implement this function to check if the point (x, y) is inside the triangle represented by _v[0], _v[1], _v[2]
+    // reference: https://blackpawn.com/texts/pointinpoly/default.html
+    Eigen::Vector3f pt;
+    pt << (float)x, (float)y, 0.0f;
+    bool isInside = isSameSide(pt, _v[0], _v[1], _v[2]) && isSameSide(pt, _v[1], _v[0], _v[2]) && isSameSide(pt, _v[2], _v[0], _v[1]);
+    return isInside;
+}
+
 static bool insideTriangle(int x, int y, const Vector3f *_v)
 {
     // TODO : Implement this function to check if the point (x, y) is inside the triangle represented by _v[0], _v[1], _v[2]
